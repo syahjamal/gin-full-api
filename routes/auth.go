@@ -1,10 +1,12 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 
+	"github.com/syahjamal/gin-full-api/models"
+
+	"github.com/danilopolani/gocialite/structs"
 	"github.com/gin-gonic/gin"
 	"github.com/syahjamal/gin-full-api/config"
 )
@@ -67,11 +69,33 @@ func CallbackHandler(c *gin.Context) {
 		return
 	}
 
-	// Print in terminal user information
-	fmt.Printf("%#v", token)
-	fmt.Printf("%#v", user)
-	fmt.Printf("%#v", provider)
+	//Dapatkan data user
+	var newUser = getOrRegisterUser(provider, user)
 
-	// If no errors, show provider name
-	c.Writer.Write([]byte("Hi, " + user.FullName))
+	c.JSON(200, gin.H{
+		"data":    newUser,
+		"token":   token,
+		"message": "berhasil login",
+	})
+}
+
+func getOrRegisterUser(provider string, user *structs.User) models.User {
+
+	var userData models.User
+
+	config.DB.Where("provider = ? AND social_id = ?", provider, user.ID).First(&userData)
+	if userData.ID == 0 {
+		newUser := models.User{
+			FullName: user.FullName,
+			Email:    user.Email,
+			SocialId: user.ID,
+			Provider: provider,
+			Avatar:   user.Avatar,
+		}
+		config.DB.Create(&newUser)
+		return newUser
+	} else {
+		return userData
+	}
+
 }

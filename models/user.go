@@ -2,9 +2,10 @@ package models
 
 import "github.com/jinzhu/gorm"
 
+//Struktur kolom
 type User struct {
 	gorm.Model
-	Articles []Article
+	Articles []Article //relasi
 	Username string
 	FullName string
 	Email    string

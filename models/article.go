@@ -8,5 +8,5 @@ type Article struct {
 	Title      string
 	Slug       string `gorm:"unique_index"` //Kolom data ramah url dan urlnya cth: "judul-pertama"
 	Desc       string `sql:"type:text;"`
-	UserID     uint
+	UserID     uint   //relasi ke user.go
 }
