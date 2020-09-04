@@ -20,8 +20,8 @@ func main() {
 	v1 := router.Group("/api/v1/")
 	{
 
-		v1.GET("/auth/:provider", routes.redirectHandler)
-		v1.GET("/auth/:provider/callback", routes.callbackHandler)
+		v1.GET("/auth/:provider", routes.RedirectHandler)
+		v1.GET("/auth/:provider/callback", routes.CallbackHandler)
 
 		article := v1.Group("/article")
 		{

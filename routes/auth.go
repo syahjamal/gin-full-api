@@ -10,7 +10,7 @@ import (
 )
 
 // Redirect to correct oAuth URL
-func redirectHandler(c *gin.Context) {
+func RedirectHandler(c *gin.Context) {
 	// Retrieve provider from route
 	provider := c.Param("provider")
 
@@ -28,7 +28,7 @@ func redirectHandler(c *gin.Context) {
 	}
 
 	providerScopes := map[string][]string{
-		"github": []string{"public_repo"},
+		"github": []string{},
 		"google": []string{},
 	}
 
@@ -54,7 +54,7 @@ func redirectHandler(c *gin.Context) {
 }
 
 // Handle callback of provider
-func callbackHandler(c *gin.Context) {
+func CallbackHandler(c *gin.Context) {
 	// Retrieve query params for state and code
 	state := c.Query("state")
 	code := c.Query("code")
