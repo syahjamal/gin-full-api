@@ -14,8 +14,6 @@ import (
 	"github.com/syahjamal/gin-full-api/config"
 )
 
-var JWT_SECRET = "SUPER_SECRET"
-
 //Temporary check token
 func CheckToken(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "success login"})
@@ -119,7 +117,7 @@ func createToken(user *models.User) string {
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := jwtToken.SignedString([]byte(JWT_SECRET))
+	tokenString, err := jwtToken.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		fmt.Println(err)
 	}
