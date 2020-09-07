@@ -16,6 +16,11 @@ import (
 
 var JWT_SECRET = "SUPER_SECRET"
 
+//Temporary check token
+func CheckToken(c *gin.Context) {
+	c.JSON(200, gin.H{"msg": "success login"})
+}
+
 // Redirect to correct oAuth URL
 func RedirectHandler(c *gin.Context) {
 	// Retrieve provider from route
