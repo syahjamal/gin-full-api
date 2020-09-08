@@ -41,6 +41,7 @@ func PostArticle(c *gin.Context) {
 	item := models.Article{
 		Title:  c.PostForm("title"),
 		Desc:   c.PostForm("desc"),
+		Tag:    c.PostForm("tag"),
 		Slug:   slug.Make(c.PostForm("title")),
 		UserID: uint(c.MustGet("jwt_user_id").(float64)),
 	}
@@ -53,4 +54,14 @@ func PostArticle(c *gin.Context) {
 		"status": "berhasil post",
 		"data":   item,
 	})
+}
+
+func GetArticleByTag(c *gin.Context) {
+	tag := c.Param("tag")
+	items := []models.Article{}
+
+	config.DB.Where("tag LIKE ?", "%"+tag+"%").Find(&items)
+
+	c.JSON(200, gin.H{"data": items})
+
 }

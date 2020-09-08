@@ -27,11 +27,13 @@ func main() {
 		//testing token
 		v1.GET("/check", middleware.IsAuth(), routes.CheckToken)
 
-		article := v1.Group("/article")
+		v1.GET("article/:slug", routes.GetArticle)
+		articles := v1.Group("/articles")
 		{
-			article.GET("/", routes.GetHome)
-			article.GET("/:slug", routes.GetArticle)
-			article.POST("/", middleware.IsAuth(), routes.PostArticle)
+			articles.GET("/", routes.GetHome)
+			articles.POST("/", middleware.IsAuth(), routes.PostArticle)
+			articles.GET("tag/:tag", routes.GetArticleByTag)
+
 		}
 	}
 	router.Run()
