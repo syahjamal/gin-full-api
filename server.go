@@ -31,7 +31,7 @@ func main() {
 		{
 			article.GET("/", routes.GetHome)
 			article.GET("/:slug", routes.GetArticle)
-			article.POST("/", routes.PostArticle)
+			article.POST("/", middleware.IsAuth(), routes.PostArticle)
 		}
 	}
 	router.Run()

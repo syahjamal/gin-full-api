@@ -32,6 +32,8 @@ func checkJWT() gin.HandlerFunc {
 
 			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 				fmt.Println(claims["user_id"], claims["user_role"])
+				c.Set("jwt_user_id", claims["user_id"])
+				c.Set("jwt_isAdmin", claims["user_role"])
 			} else {
 				c.JSON(422, gin.H{"msg": "Invalid token", "error": err})
 				c.Abort()
