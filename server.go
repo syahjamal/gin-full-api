@@ -24,8 +24,8 @@ func main() {
 		v1.GET("/auth/:provider", routes.RedirectHandler)
 		v1.GET("/auth/:provider/callback", routes.CallbackHandler)
 
-		//testing token
-		v1.GET("/check", middleware.IsAuth(), routes.CheckToken)
+		//Halaman profil
+		v1.GET("/profile", middleware.IsAuth(), routes.GetProfile)
 
 		v1.GET("article/:slug", routes.GetArticle)
 		articles := v1.Group("/articles")
