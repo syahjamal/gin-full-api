@@ -76,3 +76,28 @@ func GetArticleByTag(c *gin.Context) {
 	c.JSON(200, gin.H{"data": items})
 
 }
+
+func UpdateArticle(c *gin.Context) {
+	//parameter
+	id := c.Param("id")
+
+	var item models.Article
+
+	//Query di gorm = Select * from table where slug = "slug"
+	if config.DB.First(&item, "id = ?", id).RecordNotFound() {
+		c.JSON(404, gin.H{"status": "error", "message": "record not found"})
+		c.Abort() //Batalin request
+		return
+	}
+
+	config.DB.Model(&item).Where("id = ?", id).Updates(models.Article{
+		Title: c.PostForm("title"),
+		Desc:  c.PostForm("desc"),
+		Tag:   c.PostForm("tag"),
+	})
+
+	c.JSON(200, gin.H{
+		"status": "berhasil",
+		"data":   item,
+	})
+}
